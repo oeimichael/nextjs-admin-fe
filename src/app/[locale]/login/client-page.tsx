@@ -11,19 +11,16 @@ export default function ClientPage() {
     const url = 'https://cloudflare-worker-typescript.ruberdium-fi.workers.dev/auth/login';
     // const url = 'http://127.0.0.1:8787/auth/login'
     const data = {
-      "email": "misel@gmail.com",
-      "password": "123",
+      email: 'misel@gmail.com',
+      password: '123',
     };
 
     try {
-      const response = await axios.post(url, data, 
-          {
-            headers: {
-              'Content-Type': 'application/json', // Specify that we're sending JSON data
-          },
-        }
-       );
-       console.log(response.data)
+      await axios.post(url, data, {
+        headers: {
+          'Content-Type': 'application/json', // Specify that we're sending JSON data
+        },
+      });
     } catch (error) {
       console.error('Error:', error);
     }
@@ -33,7 +30,7 @@ export default function ClientPage() {
     <div className="flex h-screen w-full items-center justify-center overflow-hidden">
       <div className="flex w-80 flex-col items-center gap-4">
         <div>
-          <span className="text-3xl font-semibold">LOGIN</span>
+          <span className="text-3xl font-semibold">LOGIN PAGE</span>
         </div>
         <div className="flex w-full flex-col gap-2">
           <div className="flex flex-col">
