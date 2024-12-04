@@ -4,7 +4,6 @@ import axios, { type AxiosError } from 'axios';
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import PieChart from './PieChart';
-import { Console } from 'console';
 
 // Dynamically import Line chart to avoid SSR issues
 const LineChart = dynamic(() => import('./LineChart'), { ssr: false });
@@ -15,7 +14,6 @@ export default function ClientPage() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage] = useState<number>(2);
   const [totalItems, setTotalItems] = useState<number>(0);
-  const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   
   useEffect(() => {
@@ -60,6 +58,7 @@ export default function ClientPage() {
   }, [currentPage]);
 
   const fetchProducts = async () => {
+    setIsLoading(true)
     const url = 'https://cloudflare-worker-typescript.ruberdium-fi.workers.dev/products';
     const token = localStorage.getItem("token")
     try {
@@ -102,7 +101,6 @@ export default function ClientPage() {
     }
   };
   const handleEditClick = (product: any) => {
-    setSelectedProduct(product); // Set the product for editing
     window.location.href="/product-detail?id=" + product.productId
   };
   const handleCreateClick = () => {
@@ -158,7 +156,7 @@ export default function ClientPage() {
       
           </div>
           <div className="table-container">
-            <h1 className="text-2md font-bold mb-4">Product Table with Pagination</h1>
+            <h1 className="text-2md font-bold mb-4">Product Table</h1>
             <button
               className="flex gap-2 rounded-md bg-black px-4 py-2 mb-2"
               type="button"
@@ -176,7 +174,7 @@ export default function ClientPage() {
                   <th className="py-2 px-4 border border-gray-300">Name</th>
                   <th className="py-2 px-4 border border-gray-300">Quantity</th>
                   <th className="py-2 px-4 border border-gray-300">Category</th>
-                  <th className="py-2 px-4 border border-gray-300" colSpan="2">Action</th>
+                  <th className="py-2 px-4 border border-gray-300">Action</th>
                 </tr>
               </thead>
               <tbody>

@@ -1,8 +1,7 @@
 'use client';
 
-import axios, { type AxiosError } from "axios";
+import axios from "axios";
 import { useEffect, useState } from "react";
-import { set } from "zod";
 
 export default function Navbar() {
   const [userName, setUserName] = useState<string | null>('');
@@ -29,9 +28,11 @@ export default function Navbar() {
     if (response.data.status === 1) {
       setIsLoading(false)
       window.location.href = '/login';
+      alert(response.data.message); 
     }
+    
   }
-  
+
   return (
     <div className="flex h-12 w-full items-center justify-between px-4">
       <span>Welcome, {userName}</span>

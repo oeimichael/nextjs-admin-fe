@@ -6,7 +6,6 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
-import { options } from 'node_modules/axios/index.cjs';
 
 // Registering necessary components for Pie chart
 ChartJS.register(ArcElement, Tooltip, Legend);

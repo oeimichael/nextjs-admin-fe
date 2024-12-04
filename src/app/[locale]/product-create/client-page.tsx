@@ -14,13 +14,8 @@ interface ProductModel {
 
 export default function ClientPage() {
   const [isLoading, setIsLoading] = useState(false);  
-  const [selectedProduct, setSelectedProduct] = useState<ProductModel>({
-    id: null,
-    productId: null,
-    productName: '',
-    quantity: 0,
-    category: ''
-  });
+  const [selectedProduct, setSelectedProduct] = useState<ProductModel | null>(null);
+
   const backToDashBoard = async () =>{
     window.location.href = '/product';
   };
@@ -47,6 +42,7 @@ export default function ClientPage() {
         window.location.href = '/product';
       }
     } catch (error) {
+      setIsLoading(false)
       console.error('Error updating product:', error);
       alert('Failed to update product');
     }
@@ -64,8 +60,8 @@ export default function ClientPage() {
 
   return (
     <div>
-        <div className="flex h-screen w-full items-center justify-center overflow-hidden">
-          <div className="edit-form max-w-md mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <div className="flex h-screen w-full justify-center overflow-hidden">
+          <div className="edit-form max-w-md mx-auto bg-white p-6">
             <h4 className="text-2xl font-semibold text-center mb-6">Create Product</h4>
             <form className="space-y-4">
               {/* Product Name */}
