@@ -15,6 +15,8 @@ interface ProductModel {
 export default function ClientPage() {
   const [error, setError] = useState<string>('');
   const [selectedProduct, setSelectedProduct] = useState<ProductModel | null>(null);
+  const [isLoading, setIsLoading] = useState(false);  
+
   useEffect(() => {
       const fetchProducts = async () => {
       const pathSegments = window.location.href.split("id="); // Split the URL into parts
@@ -29,8 +31,8 @@ export default function ClientPage() {
             'Content-Type': 'application/json',
           },
         });
-
-        if (response.data != null){
+        
+        if (response.data.data != null){
           setSelectedProduct(response.data.data);
         }
         else {
@@ -39,7 +41,6 @@ export default function ClientPage() {
       } catch (error) {
         // window.location.href = '/login';
         setError('Failed to fetch products');
-        console.error(error);
       }
     };
 
@@ -54,6 +55,7 @@ export default function ClientPage() {
 
     selectedProduct.id = selectedProduct.productId
     try {
+      setIsLoading(true)
       const token = localStorage.getItem("token")
       const response = await axios.put(
         `https://cloudflare-worker-typescript.ruberdium-fi.workers.dev/products`,
@@ -67,10 +69,11 @@ export default function ClientPage() {
       );
 
       if (response.status === 200) {
-        alert(response.data.message);
+        setIsLoading(false)
+        alert(response.data.message); 
+        window.location.href = '/product';
       }
     } catch (error) {
-      console.error('Error updating product:', error);
       alert('Failed to update product');
     }
   };
@@ -159,6 +162,15 @@ export default function ClientPage() {
 
         </div>
       )}
+
+        {isLoading && (
+          <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
+            <div className="bg-white p-6 rounded-md shadow-lg flex items-center justify-center">
+              <div className="loader-border border-t-transparent border-4 border-blue-500 border-solid rounded-full w-16 h-16 animate-spin"></div>
+              <p className="ml-4 text-lg text-gray-700">Loading...</p>
+            </div>
+          </div>
+        )}
     </div>
     
   );

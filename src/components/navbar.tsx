@@ -1,6 +1,20 @@
 'use client';
 
+import axios, { type AxiosError } from "axios";
+import { useEffect, useState } from "react";
+
 export default function Navbar() {
+  const [userName, setUserName] = useState<string | null>('');
+
+  useEffect(() => {
+    const name : string | null = localStorage.getItem("username")
+    const fetchProducts = async () => {
+      setUserName(name)
+      console.log(name)
+    }
+    fetchProducts();
+  }, []);
+  
   function fLogoutBtnClick() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
@@ -10,7 +24,7 @@ export default function Navbar() {
 
   return (
     <div className="flex h-12 w-full items-center justify-between px-4">
-      <span>Welcome, </span>
+      <span>Welcome, {userName}</span>
 
       <button
         className="flex gap-2 rounded-md p-2 transition-all hover:bg-slate-500"
