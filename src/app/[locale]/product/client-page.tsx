@@ -1,8 +1,8 @@
 'use client';
 
 import axios, { type AxiosError } from 'axios';
-import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import { useEffect, useState } from 'react';
 import PieChart from './PieChart';
 
 // Dynamically import Line chart to avoid SSR issues
@@ -17,11 +17,10 @@ export default function ClientPage() {
   const [isLoading, setIsLoading] = useState(false);
   
   useEffect(() => {
-      const fetchProducts = async () => {
-      setIsLoading(true);
-      
+    const fetchProducts = async () => {
+      setIsLoading(true);      
       const url = 'https://cloudflare-worker-typescript.ruberdium-fi.workers.dev/products';
-      const token = localStorage.getItem("token")
+      const token = localStorage.getItem('token');
       try {
         const response = await axios.get(url, {
           headers: {
@@ -34,33 +33,31 @@ export default function ClientPage() {
           },
         });
 
-        if (response.data.total > 0){
+        if (response.data.total > 0) {
           setProducts(response.data.data);
           setTotalItems(response.data.total);
           setIsLoading(false);
-        }
-        else {
+        } else {
           setError(response.data.message);
         }
       } 
-      catch (error: AxiosError | any) {
+      catch (error: any) {
         if (error.code === "ERR_NETWORK") {
           alert("Unauthorized access. Please log in again.");
-          window.location.href="/login"
-        } 
-        else {
+          window.location.href='/login';
+        } else {
           setError('Failed to fetch products');
         }
       }
     };
 
-      fetchProducts();
+    fetchProducts();
   }, [currentPage]);
 
   const fetchProducts = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     const url = 'https://cloudflare-worker-typescript.ruberdium-fi.workers.dev/products';
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem('token');
     try {
       const response = await axios.get(url, {
         headers: {
@@ -101,10 +98,10 @@ export default function ClientPage() {
     }
   };
   const handleEditClick = (product: any) => {
-    window.location.href="/product-detail?id=" + product.productId
+    window.location.href='/product-detail?id=' + product.productId
   };
   const handleCreateClick = () => {
-    window.location.href="/product-create"
+    window.location.href='/product-create'
   };
   const handleDeleteClick = async (id: Number) => {
     setIsLoading(true);
@@ -123,13 +120,13 @@ export default function ClientPage() {
       if (response.status === 200) {
         setIsLoading(false);
         alert(response.data.message);
-        await fetchProducts()
+        await fetchProducts();
       }
       
     } catch (error: any) {
       setIsLoading(false)
-      if (error.code === "ERR_NETWORK") {
-        alert("Unauthorized access. Please log in again.");
+      if (error.code === 'ERR_NETWORK') {
+        alert('Unauthorized access. Please log in again.');
         // window.location.href="/login"
       } 
       else {
@@ -150,13 +147,10 @@ export default function ClientPage() {
           <h1 className="text-md font-bold mb-4">Product Data</h1>
           <div className='flex w-full'>
             <div className='w-6/12'><LineChart products={products} /></div>
-            
             <div className='w-6/12'><PieChart products={products} width={200} height={20} /></div>
-       
-      
           </div>
           <div className="table-container">
-            <h1 className="text-2md font-bold mb-4">Product Table</h1>
+            <h1 className="text-md font-bold mb-4">Product Table</h1>
             <button
               className="flex gap-2 rounded-md bg-black px-4 py-2 mb-2"
               type="button"

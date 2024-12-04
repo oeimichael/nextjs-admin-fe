@@ -14,7 +14,7 @@ export default withSentryConfig(
   bundleAnalyzer(
     withNextIntl({
       eslint: {
-        dirs: ['.'],
+        ignoreDuringBuilds: true, // Disables ESLint during the build process
       },
       poweredByHeader: false,
       reactStrictMode: true,

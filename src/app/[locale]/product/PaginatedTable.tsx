@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
-interface Product {
+type Product = {
   id: number;
   name: string;
   description: string;
@@ -12,8 +12,8 @@ interface Product {
 const PaginatedTable: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [itemsPerPage] = useState<number>(5);  // Number of items per page
-  const [totalItems, setTotalItems] = useState<number>(0);  // Total number of products (for pagination)
+  const [itemsPerPage] = useState<number>(5);
+  const [totalItems, setTotalItems] = useState<number>(0);
 
   useEffect(() => {
     // Replace with your API URL to fetch the products
@@ -25,8 +25,8 @@ const PaginatedTable: React.FC = () => {
         },
       });
 
-      setProducts(response.data.products);  // Assuming your API returns products in the "products" field
-      setTotalItems(response.data.totalCount);  // Assuming your API returns the total count in "totalCount"
+      setProducts(response.data.products);
+      setTotalItems(response.data.totalCount);
     };
 
     fetchProducts();
@@ -68,12 +68,15 @@ const PaginatedTable: React.FC = () => {
       </table>
 
       {/* Pagination controls */}
-      <div className="pagination">
+      <div>
         <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
           Previous
         </button>
         <span>
-          Page {currentPage} of {totalPages}
+          Page 
+          {currentPage}
+          of
+          {totalPages}
         </span>
         <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
           Next

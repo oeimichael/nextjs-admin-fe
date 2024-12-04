@@ -1,6 +1,5 @@
 // LineChart.tsx
 import React from 'react';
-import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,9 +7,10 @@ import {
   PointElement,
   LineElement,
   Title,
-  Tooltip,
   Legend,
+  Tooltip
 } from 'chart.js';
+import { Line } from 'react-chartjs-2';
 
 // Register the necessary chart.js components
 ChartJS.register(

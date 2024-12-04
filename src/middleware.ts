@@ -1,25 +1,11 @@
-import type { NextFetchEvent, NextRequest } from 'next/server';
-import { createRouteMatcher } from '@clerk/nextjs/server';
 import createMiddleware from 'next-intl/middleware';
 import { routing } from './libs/i18nNavigation';
+import type { NextRequest } from 'next/server';
 
 const intlMiddleware = createMiddleware(routing);
 
-const isProtectedRoute = createRouteMatcher([
-  '/dashboard(.*)',
-  '/:locale/dashboard(.*)',
-]);
-
-const isAuthPage = createRouteMatcher([
-  '/sign-in(.*)',
-  '/:locale/sign-in(.*)',
-  '/sign-up(.*)',
-  '/:locale/sign-up(.*)',
-]);
-
 export default function middleware(
   request: NextRequest,
-  event: NextFetchEvent,
 ) {
   // Run Clerk middleware only when it's necessary
   // if (

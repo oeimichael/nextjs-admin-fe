@@ -4,20 +4,18 @@ import {
   Chart as ChartJS,
   ArcElement,
   Tooltip,
-  Legend
+  Legend,
 } from 'chart.js';
 
-// Registering necessary components for Pie chart
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-// Define your component and the expected props
 interface PieChartProps {
-  products: any[];  // Array of products to display
+  products: any[];
   width: number;
   height: number;
 }
 
-const PieChart: React.FC<PieChartProps> = ({ products , width = 300, height = 300 }) => {
+const PieChart: React.FC<PieChartProps> = ({ products, width = 300, height = 300 }) => {
   const data = {
     labels: products.map((product) => product.productName),
     datasets: [
@@ -37,7 +35,7 @@ const PieChart: React.FC<PieChartProps> = ({ products , width = 300, height = 30
   };
   return (
     <div style={{ width: `${width}px`, height: `${height}px` }}>
-      <Pie data={data}  width={width} height={height} />
+      <Pie data={data} width={width} height={height} />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 'use client';
 
 import axios from 'axios';
+import Link from 'next/link';
 import { useState } from 'react';
 
 export default function ClientPage() {
@@ -11,7 +12,7 @@ export default function ClientPage() {
   const [isLoading, setisLoading] = useState(false);
 
   async function fLoginBtnClick() {
-    setisLoading(true)
+    setisLoading(true);
     const url = 'https://cloudflare-worker-typescript.ruberdium-fi.workers.dev/auth/login';
     const data = {
       email,
@@ -27,17 +28,15 @@ export default function ClientPage() {
       });
 
       if (response.data.status === 1) {
-        console.log(response.data.data.token)
         localStorage.setItem('token', response.data.data.token);
         localStorage.setItem('username', response.data.data.username);
         localStorage.setItem('email', response.data.data.email);
-        setisLoading(false)
+        setisLoading(false);
         window.location.href = '/dashboard';
       } else {
-        setisLoading(false)
+        setisLoading(false);
         setErrorMessage(response.data.message);
       }
-
     } catch (error) {
       console.error('Error:', error);
     }
@@ -112,19 +111,19 @@ export default function ClientPage() {
 
         <div className="flex gap-2">
           <span>Don't have account? </span>
-          <a href="/register">Register now</a>
+          <Link href="/register">Register now</Link>
         </div>
       </div>
-       {/* )} */}
-      {isLoading && (
-          <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
-            <div className="bg-white p-6 rounded-md shadow-lg flex items-center justify-center">
-              <div className="loader-border border-t-transparent border-4 border-blue-500 border-solid rounded-full w-16 h-16 animate-spin"></div>
-              <p className="ml-4 text-lg text-gray-700">Loading...</p>
-            </div>
-          </div>
-      )}
       
+      {isLoading && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-500 z-50">
+          <div className="bg-white p-6 rounded-md shadow-lg flex items-center justify-center">
+            <div className="loader-border border-t-transparent border-4 border-blue-500 border-solid rounded-full w-16 h-16 animate-spin">
+            </div>
+          <p className="ml-4 text-lg text-gray-700">Loading...</p>
+          </div>
+        </div>
+      )}      
     </div>
   );
 }

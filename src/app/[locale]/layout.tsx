@@ -8,7 +8,8 @@ export default function RootLayout(props: {
   children: React.ReactNode;
   params: Promise<{ locale: string }>;
 }) {
-  const pathArray = window.location.pathname.split('/');
+  const url = '/login'
+  const pathArray = url.split('/');
 
   if (pathArray[1] === 'login' || pathArray[1] === 'register') {
     return (

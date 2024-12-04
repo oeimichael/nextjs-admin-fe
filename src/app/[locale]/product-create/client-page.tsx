@@ -14,8 +14,14 @@ interface ProductModel {
 
 export default function ClientPage() {
   const [isLoading, setIsLoading] = useState(false);  
-  const [selectedProduct, setSelectedProduct] = useState<ProductModel | null>(null);
-
+  // const [selectedProduct, setSelectedProduct] = useState<ProductModel | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<ProductModel>({
+    id: null,
+    productId: null,
+    productName: null,
+    quantity: null,
+    category: null
+  });
   const backToDashBoard = async () =>{
     window.location.href = '/product';
   };
@@ -50,7 +56,6 @@ export default function ClientPage() {
 
   const handleFieldChange = (field: keyof ProductModel, value: any) => {
     setSelectedProduct((prevState) => {
-      if (prevState === null) return null;
       return {
         ...prevState, 
         [field]: value,
