@@ -6,21 +6,36 @@ import { useState } from 'react';
 export default function ClientPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   async function fLoginBtnClick() {
     const url = 'https://cloudflare-worker-typescript.ruberdium-fi.workers.dev/auth/login';
-    // const url = 'http://127.0.0.1:8787/auth/login'
     const data = {
-      email: 'misel@gmail.com',
-      password: '123',
+      email,
+      password,
     };
 
     try {
-      await axios.post(url, data, {
+      const response = await axios.post(url, data, {
         headers: {
-          'Content-Type': 'application/json', // Specify that we're sending JSON data
+          'Content-Type': 'application/json', // This is optional, axios will set it automatically
+          'Method': 'POST',
         },
       });
+
+      if (response.data.status === 1) {
+        console.log(response.data.data.token)
+        localStorage.setItem('token', response.data.data.token);
+        localStorage.setItem('username', response.data.data.username);
+        localStorage.setItem('email', response.data.data.email);
+
+        window.location.href = '/dashboard';
+      } else {
+        setErrorMessage(response.data.message);
+      }
+
     } catch (error) {
       console.error('Error:', error);
     }
@@ -28,11 +43,19 @@ export default function ClientPage() {
 
   return (
     <div className="flex h-screen w-full items-center justify-center overflow-hidden">
-      <div className="flex w-80 flex-col items-center gap-4">
+
+      {/* {loading
+        ? (
+            <div className="loading-container">
+              <ReactLoading type="spin" color="#00BFFF" height={50} width={50} />
+            </div>
+          )
+        : ( */}
+      <div className="flex w-96 flex-col items-center gap-4 border px-4 py-6 shadow-md">
         <div>
-          <span className="text-3xl font-semibold">LOGIN PAGE</span>
+          <span className="text-3xl font-semibold">LOGIN</span>
         </div>
-        <div className="flex w-full flex-col gap-2">
+        <div className="mt-2 flex w-full flex-col gap-2">
           <div className="flex flex-col">
             <span>Email</span>
             <input
@@ -48,17 +71,31 @@ export default function ClientPage() {
             <span>Password</span>
             <input
               className="w-full rounded-md border px-4 py-2"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
             />
           </div>
+
+          <div className="flex items-center gap-2">
+            <input
+              className="w-4 rounded-md border"
+              type="checkbox"
+              checked={showPassword}
+              onChange={() => {
+                setShowPassword(!showPassword);
+              }}
+            />
+            <span>Show password</span>
+          </div>
         </div>
-        <div>
-          <span></span>
+
+        <div className="flex w-full justify-start">
+          <span className="text-red-700">{errorMessage}</span>
         </div>
+
         <div className="w-full">
           <button
             type="button"
@@ -70,7 +107,14 @@ export default function ClientPage() {
             <span className=" text-white">Login</span>
           </button>
         </div>
+
+        <div className="flex gap-2">
+          <span>Don't have account? </span>
+          <a href="/register">Register now</a>
+        </div>
       </div>
+      {/* )} */}
+
     </div>
   );
 }

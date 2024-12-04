@@ -1,42 +1,30 @@
 'use client';
 
 export default function ClientPage() {
+  function fAddBtnClick() {
+    window.location.href = '/register';
+  }
+
   return (
-    <div className="flex h-screen w-full items-center justify-center overflow-hidden">
-      <div className="flex w-80 flex-col items-center gap-4">
-        <div>
-          <span className="text-3xl font-semibold">USER</span>
-        </div>
-        <div className="flex w-full flex-col gap-2">
-          <div className="flex flex-col">
-            <span>Email</span>
-            <input
-              className="w-full rounded-md border px-4 py-2"
-              type="text"
+    <div className="w-full overflow-y-auto">
+      <div className="flex flex-col gap-2">
+        <span className="text-2xl font-semibold">User</span>
+        <hr />
+      </div>
 
-            />
-          </div>
-          <div className="flex flex-col">
-            <span>Password</span>
-            <input
-              className="w-full rounded-md border px-4 py-2"
-              type="password"
-
-            />
-          </div>
-        </div>
-        <div>
-          <span></span>
-        </div>
-        <div className="w-full">
-          <button
-            type="button"
-            className="w-full rounded-md bg-black py-2"
-
-          >
-            <span className=" text-white">Login</span>
-          </button>
-        </div>
+      <div className="mt-5 flex w-full justify-end">
+        <button
+          className="flex gap-2 rounded-md bg-black px-4 py-2"
+          type="button"
+          onClick={() => {
+            fAddBtnClick();
+          }}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" className="fill-white">
+            <path d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z"></path>
+          </svg>
+          <span className="text-white">Add</span>
+        </button>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
+import { options } from 'node_modules/axios/index.cjs';
 
 // Registering necessary components for Pie chart
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -13,9 +14,11 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 // Define your component and the expected props
 interface PieChartProps {
   products: any[];  // Array of products to display
+  width: number;
+  height: number;
 }
 
-const PieChart: React.FC<PieChartProps> = ({ products }) => {
+const PieChart: React.FC<PieChartProps> = ({ products , width = 300, height = 300 }) => {
   const data = {
     labels: products.map((product) => product.productName),
     datasets: [
@@ -33,8 +36,11 @@ const PieChart: React.FC<PieChartProps> = ({ products }) => {
       },
     ],
   };
-
-  return <Pie data={data} />;
+  return (
+    <div style={{ width: `${width}px`, height: `${height}px` }}>
+      <Pie data={data}  width={width} height={height} />
+    </div>
+  );
 };
 
 export default PieChart;

@@ -55,7 +55,7 @@ const LineChart: React.FC<{ products: any[] }> = ({ products }) => {
     },
   };
 
-  return <Line data={data} options={options} />;
+  return <Line data={data} options={options}/>;
 };
 
 export default LineChart;

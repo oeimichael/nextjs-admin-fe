@@ -1,5 +1,6 @@
 'use client';
 
+import Navbar from '@/components/navbar';
 import Sidebar from '@/components/sidebar';
 import '@/styles/global.css';
 
@@ -9,7 +10,7 @@ export default function RootLayout(props: {
 }) {
   const pathArray = window.location.pathname.split('/');
 
-  if (pathArray[1] === 'login') {
+  if (pathArray[1] === 'login' || pathArray[1] === 'register') {
     return (
       <html lang="en">
         <body suppressHydrationWarning>
@@ -21,11 +22,16 @@ export default function RootLayout(props: {
     return (
       <html lang="en">
         <body className="flex overflow-hidden" suppressHydrationWarning>
-          <div className="h-screen w-80 overflow-y-auto bg-black">
+          <div className="h-screen min-w-80 overflow-y-auto bg-black">
             <Sidebar />
           </div>
-          <div>
-            {props?.children}
+          <div className="flex w-full flex-col overflow-hidden">
+            <div className="w-full overflow-hidden shadow-md">
+              <Navbar />
+            </div>
+            <div className="overflow-auto p-4">
+              {props?.children}
+            </div>
           </div>
 
         </body>
