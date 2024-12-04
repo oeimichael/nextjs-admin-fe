@@ -34,6 +34,7 @@ export default function ClientPage() {
         setisLoading(false)
         window.location.href = '/dashboard';
       } else {
+        setisLoading(false)
         setErrorMessage(response.data.message);
       }
 

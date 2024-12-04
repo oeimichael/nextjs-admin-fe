@@ -129,6 +129,7 @@ export default function ClientPage() {
       }
       
     } catch (error: any) {
+      setIsLoading(false)
       if (error.code === "ERR_NETWORK") {
         alert("Unauthorized access. Please log in again.");
         // window.location.href="/login"

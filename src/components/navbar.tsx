@@ -2,26 +2,36 @@
 
 import axios, { type AxiosError } from "axios";
 import { useEffect, useState } from "react";
+import { set } from "zod";
 
 export default function Navbar() {
   const [userName, setUserName] = useState<string | null>('');
-
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const name : string | null = localStorage.getItem("username")
     const fetchProducts = async () => {
       setUserName(name)
-      console.log(name)
     }
     fetchProducts();
   }, []);
   
-  function fLogoutBtnClick() {
+  async function fLogoutBtnClick() {
+    setIsLoading(true)
+    const token = localStorage.getItem("token")
     localStorage.removeItem('token');
     localStorage.removeItem('username');
     localStorage.removeItem('email');
-    window.location.href = '/login';
-  }
+    const response = await axios.post(
+      `https://cloudflare-worker-typescript.ruberdium-fi.workers.dev/auth/logout`,
+      {jwtToken: token},
+    );
 
+    if (response.data.status === 1) {
+      setIsLoading(false)
+      window.location.href = '/login';
+    }
+  }
+  
   return (
     <div className="flex h-12 w-full items-center justify-between px-4">
       <span>Welcome, {userName}</span>
@@ -39,6 +49,15 @@ export default function Navbar() {
           <path d="m11 16 5-4-5-4v3.001H3v2h8z"></path>
         </svg>
       </button>
+      {isLoading && (
+          <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
+            <div className="bg-white p-6 rounded-md shadow-lg flex items-center justify-center">
+              <div className="loader-border border-t-transparent border-4 border-blue-500 border-solid rounded-full w-16 h-16 animate-spin"></div>
+              <p className="ml-4 text-lg text-gray-700">Loading...</p>
+            </div>
+          </div>
+      )}
     </div>
+    
   );
 }

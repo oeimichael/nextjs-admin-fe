@@ -1,8 +1,8 @@
 'use client';
 
-import type { Product } from '@arcjet/next';
+// import type { Product } from '@arcjet/next';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface ProductModel {
   id: number | null,
@@ -13,7 +13,6 @@ interface ProductModel {
 }
 
 export default function ClientPage() {
-  const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);  
   const [selectedProduct, setSelectedProduct] = useState<ProductModel>({
     id: null,
